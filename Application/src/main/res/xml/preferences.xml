@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="PV Output settings">
+
+        <EditTextPreference
+            android:key="pvoutput_apikey"
+            android:summary="Your pvoutput API key or read only key"
+            android:title="API Key or Read Only Key" />
+        <EditTextPreference
+            android:key="pvoutput_sid"
+            android:summary="Your pvoutput System ID"
+            android:title="System ID" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Options">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_enable_consumption"
+            android:summary="Adds Power Consumption to the charts and lists"
+            android:title="Enable Power Consumption" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_reduced_refreshtimeout"
+            android:summary="Only switch this on if you're a pvoutput donator"
+            android:title="Allow refresh every minute" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Display settings">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_ds_time_12h"
+            android:summary="Use 12h instead of default 24h mode"
+            android:title="Show time in 12h mode" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

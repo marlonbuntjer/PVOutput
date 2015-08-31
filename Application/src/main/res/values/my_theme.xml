@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:textColor">@color/text_dark</item>
+    </style>
+
+    <style name="Toolbar_Popup" parent="android:Widget.Toolbar">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:colorBackground">@color/bg_content_light</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+        <item name="android:background">@drawable/tabbar_background</item>
+    </style>
+
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="Fragmentheader">
+        <item name="android:background">@color/primary</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:paddingLeft">@dimen/margin_medium</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:elevation">6dp</item>
+    </style>
+
+    <style name="SideTitle">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:background">@color/bg_content_light</item>
+        <item name="android:gravity">top|right</item>
+        <item name="android:paddingEnd">40dp</item>
+        <item name="android:rotation">270</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">220dp</item>
+        <item name="android:layout_height">220dp</item>
+    </style>
+
+
+    <style name="MiniText">
+        <item name="android:textSize">8sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="AppTheme.Light.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/white</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
+</resources>

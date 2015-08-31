@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="40dip"
+    android:orientation="horizontal"
+    android:padding="6dip">
+
+    <TextView
+        android:id="@+id/firstColumn"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight=".25"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical|start"
+        android:singleLine="true"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/secondColumn"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight=".35"
+        android:gravity="center_vertical|end"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/thirdColumn"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight=".40"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical|end"
+        android:singleLine="true"
+        android:textSize="14sp" />
+
+</LinearLayout>

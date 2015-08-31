@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            style="@style/Fragmentheader"
+            android:layout_width="match_parent"
+            android:elevation="6dp"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium">
+
+            <com.github.mikephil.charting.charts.CombinedChart
+                android:id="@+id/dailychart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+        <!-- Main area -->
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TableLayout
+                android:layout_width="35dp"
+                android:layout_height="match_parent">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/sideTitle"
+                        style="@style/SideTitle"
+                        android:text="@string/pagetitle_daily" />
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="6dip">
+
+                    <TextView
+                        android:id="@+id/firstColumn"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".25"
+                        android:ellipsize="marquee"
+                        android:gravity="center_vertical|start"
+                        android:singleLine="true"
+                        android:text="@string/date"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/secondColumn"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".40"
+                        android:gravity="center_vertical|end"
+                        android:text="@string/energy"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/thirdColumn"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".35"
+                        android:ellipsize="marquee"
+                        android:gravity="center_vertical|end"
+                        android:singleLine="true"
+                        android:text="@string/peak"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-17dp"
+                    android:orientation="horizontal"
+                    android:padding="6dip">
+
+                    <TextView
+                        android:id="@+id/subfirstColumn"
+                        style="@style/MiniText"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".25"
+                        android:ellipsize="marquee"
+                        android:gravity="start|top"
+                        android:singleLine="true"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/subsecondColumn"
+                        style="@style/MiniText"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".40"
+                        android:gravity="end|top"
+                        android:text="@string/pvoutput_energy_uom" />
+
+                    <TextView
+                        android:id="@+id/subthirdColumn"
+                        style="@style/MiniText"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".35"
+                        android:ellipsize="marquee"
+                        android:gravity="end|top"
+                        android:singleLine="true"
+                        android:text="@string/pvoutput_power_uom" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbarStyle="outsideInset" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

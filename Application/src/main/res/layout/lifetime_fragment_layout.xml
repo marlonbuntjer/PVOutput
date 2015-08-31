@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lifetimefragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragmentheader"
+            style="@style/Fragmentheader"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_huge"
+            android:paddingRight="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_large">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fragmentheader_gen"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:elevation="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/energygeneration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="bottom|left"
+                    android:text="@string/pvoutput_energy_generation"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <View
+                    android:id="@+id/livedivider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignRight="@+id/energygeneration"
+                    android:layout_below="@+id/energygeneration"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/energygeneration_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/livedivider1"
+                    android:includeFontPadding="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/energygeneration_uom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_below="@id/livedivider1"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@id/energygeneration_value"
+                    android:gravity="bottom"
+                    android:text="@string/unit_mwh"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!-- Main area -->
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TableLayout
+                android:layout_width="35dp"
+                android:layout_height="match_parent">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/sideTitle"
+                        style="@style/SideTitle"
+                        android:text="@string/pagetitle_lifetime" />
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small">
+
+
+                <ListView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbarStyle="outsideInset" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

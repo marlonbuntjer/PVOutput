@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/livefragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragmentheader"
+            style="@style/Fragmentheader"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_large">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fragmentheader_gen"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:elevation="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/powergeneration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="bottom|left"
+                    android:text="@string/pvoutput_power_generation_short"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <View
+                    android:id="@+id/livedivider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignRight="@+id/powergeneration"
+                    android:layout_below="@+id/powergeneration"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/powergeneration_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/livedivider1"
+                    android:includeFontPadding="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/powergeneration_uom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_below="@id/livedivider1"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@id/powergeneration_value"
+                    android:gravity="bottom"
+                    android:text="@string/pvoutput_power_uom"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fragmentheader_cons"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:elevation="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/powerconsumption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="bottom|end"
+                    android:text="@string/pvoutput_power_consumption_short"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <View
+                    android:id="@+id/livedivider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/powerconsumption"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/powerconsumption"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/powerconsumption_uom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/livedivider2"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="bottom"
+                    android:text="@string/pvoutput_power_uom"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/powerconsumption_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/livedivider2"
+                    android:layout_toLeftOf="@id/powerconsumption_uom"
+                    android:includeFontPadding="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/lastupdated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="end"
+                android:text="last updated: --:--"
+                android:textColor="#FFFFFF"
+                android:textSize="8sp" />
+
+        </RelativeLayout>
+
+        <!-- Main area -->
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TableLayout
+                android:layout_width="35dp"
+                android:layout_height="match_parent">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/sideTitle"
+                        style="@style/SideTitle"
+                        android:text="@string/pagetitle_live" />
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small">
+
+
+                <ListView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbarStyle="outsideInset" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

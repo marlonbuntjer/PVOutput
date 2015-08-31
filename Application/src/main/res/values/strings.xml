@@ -1,0 +1,85 @@
+<!--
+  Copyright 2015 PV Output for Android by Marlon Buntjer
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <string name="versionName">1.02</string>
+    <string name="about_title">PV Output for Android</string>
+    <string name="about_version">Version:</string>
+    <string name="about_copyright_l1">© 2015 Marlon Buntjer.</string>
+    <string name="about_copyright_l2">All rights reserved.</string>
+
+    <string name="settings_title">Settings</string>
+
+    <string name="menu_refresh">Refresh data</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About PV Output</string>
+
+    <string name="fetch_text">Reload data</string>
+    <string name="not_connected">No internet connection available</string>
+    <string name="connection_error">Connection error.</string>
+
+    <string name="pagetitle_live">LIVE</string>
+    <string name="pagetitle_today">TODAY</string>
+    <string name="pagetitle_daily">DAILY</string>
+    <string name="pagetitle_monthly">MONTHLY</string>
+    <string name="pagetitle_lifetime">LIFETIME</string>
+
+    <string name="total_energy">Total Energy</string>
+    <string name="energy">Energy</string>
+    <string name="power">Power</string>
+    <string name="peak">Peak</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+    <string name="month">Month</string>
+
+    <string name="generated">generated</string>
+    <string name="consumed">consumed</string>
+
+    <string name="unit_mwh">MWh</string>
+
+    <string name="pvoutput_api_url">http://pvoutput.org/service/r2/</string>
+    <string name="pvoutput_api_service_status">getstatus.jsp</string>
+    <string name="pvoutput_api_service_statistic">getstatistic.jsp</string>
+    <string name="pvoutput_api_service_output">getoutput.jsp</string>
+
+    <string name="pvoutput_date">Date</string>
+    <string name="pvoutput_time">Time</string>
+    <string name="pvoutput_energy_generation">Energy Generation</string>
+    <string name="pvoutput_power_generation">Power Generation</string>
+    <string name="pvoutput_power_generation_short">Power (gen)</string>
+    <string name="pvoutput_energy_consumption">Energy Consumption</string>
+    <string name="pvoutput_power_consumption">Power Consumption</string>
+    <string name="pvoutput_power_consumption_short">Power (cons)</string>
+    <string name="pvoutput_efficiency">EFFICIENCY</string>
+    <string name="pvoutput_temperature">TEMPERATURE</string>
+    <string name="pvoutput_voltage">VOLTAGE</string>
+
+    <string name="pvoutput_energy_uom">kWh</string>
+    <string name="pvoutput_power_uom">W</string>
+    <string name="pvoutput_efficiency_uom">W/kWh</string>
+    <string name="pvoutput_temperature_uom">°C</string>
+    <string name="pvoutput_voltage_uom">Volts</string>
+    <string name="pvoutput_time_format">hh:mm</string>
+    <string name="pvoutput_date_format">dd/mm</string>
+
+    <string name="loading_message">Getting your data</string>
+    <string name="loading_failed_message">Failed to load data</string>
+    <string name="loading_failed_try_again">Please try again later</string>
+    <string name="invalid_api_key_message">Invalid API Key or System ID provided \nChoose \'SETTINGS\' to enter valid values</string>
+    <string name="too_recently_refreshed_message">too recently refreshed</string>
+
+</resources>
