@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Window;
@@ -35,7 +36,7 @@ public class LoadscreenActivity extends Activity {
     private SharedPreferences mSharedPreferences;
 
     // this boolean is used for testing without actual api calls
-    private boolean app_testmode = true;
+    private boolean app_testmode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,7 @@ public class LoadscreenActivity extends Activity {
         Button positive_button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
 
         if (positive_button != null) {
-            positive_button.setTextColor(getResources().getColor(R.color.accent));
+            positive_button.setTextColor(ContextCompat.getColor(this, R.color.accent));
         }
 
     }
@@ -227,6 +228,7 @@ public class LoadscreenActivity extends Activity {
         Downloader downloader;
         private boolean connOK = true;
         private boolean pvOutputConnectionException = false;
+        private boolean PVOutputNoStatusFoundException = false;
 
         @Override
         protected String doInBackground(String... urls) {
@@ -282,7 +284,8 @@ public class LoadscreenActivity extends Activity {
                     String[] em = downloader.getErrorStreamMessage().split(": ");
                     try {
                         errorMessage = em[1];
-                    } catch (NumberFormatException | NullPointerException e) {
+                    } catch (NumberFormatException | NullPointerException
+                            | ArrayIndexOutOfBoundsException e) {
                         Log.d(TAG, "createDailyDataArray - Exception: " + e.getMessage());
                     }
                 }

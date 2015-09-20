@@ -3,7 +3,7 @@ package com.github.marlonbuntjer.pvoutput;
 /**
  * Created by Marlon Buntjer on 30-6-2015.
  */
-public class PVOutputConnectionException extends Exception {
+class PVOutputConnectionException extends Exception {
 
     public PVOutputConnectionException() {
         super();

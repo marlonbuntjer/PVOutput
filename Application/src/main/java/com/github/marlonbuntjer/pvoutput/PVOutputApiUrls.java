@@ -15,7 +15,7 @@ import java.util.Locale;
 /**
  * Created by Marlon Buntjer on 24-6-2015.
  */
-public class PVOutputApiUrls {
+class PVOutputApiUrls {
 
     private Context context;
     private Resources res;

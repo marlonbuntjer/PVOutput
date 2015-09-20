@@ -1,5 +1,7 @@
 package com.github.marlonbuntjer.pvoutput;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +12,9 @@ import java.net.URL;
 /**
  * Created by Marlon Buntjer on 25-6-2015.
  */
-public class Downloader {
+class Downloader {
 
+    private static final String TAG = MonthlyFragment.class.getSimpleName();
     private String errorStreamMessage;
 
     public Downloader() {
@@ -20,7 +23,8 @@ public class Downloader {
     /**
      * Initiates the fetch operation.
      */
-    public String loadFromNetwork(String urlString) throws IOException, PVOutputConnectionException {
+    public String loadFromNetwork(String urlString)
+            throws IOException, PVOutputConnectionException {
         InputStream stream = null;
         String str = "";
 
@@ -43,8 +47,9 @@ public class Downloader {
      * @return An InputStream retrieved from a successful HttpURLConnection.
      * @throws java.io.IOException
      */
-    private InputStream downloadUrl(String urlString) throws IOException, PVOutputConnectionException {
-        // BEGIN_INCLUDE(get_inputstream)
+    private InputStream downloadUrl(String urlString)
+            throws IOException, PVOutputConnectionException {
+
         InputStream inputStream;
         HttpURLConnection conn = null;
         try {
@@ -59,12 +64,28 @@ public class Downloader {
             inputStream = conn.getInputStream();
         } catch (IOException e) {
             if (conn != null) {
+                // Reading the response body cleans up the connection even if
+                // you are not interested in the response content itself.
                 this.errorStreamMessage = readIt(conn.getErrorStream());
+
+                Log.d(TAG, "responsecode = " + conn.getResponseCode());
+                Log.d(TAG, "errorStreamMessage = " + errorStreamMessage);
+
+                // if no livedata and todaydata are uploaded to pvoutput.org the errormessage
+                // "Bad request 400: No status found" will be returned
+                // the errorstream is returned and will be handled by the caller
+                // other url downloads should then continue
+                if (errorStreamMessage.equals("Bad request 400: No status found")) {
+                    // No Status data found.
+                    inputStream = conn.getErrorStream();
+                } else {
+                    throw new PVOutputConnectionException();
+                }
+            } else {
+                throw new PVOutputConnectionException();
             }
-            throw new PVOutputConnectionException();
         }
         return inputStream;
-        // END_INCLUDE(get_inputstream)
     }
 
 

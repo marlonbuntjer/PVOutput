@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
    more info: https://github.com/codepath/android_guides/wiki/ViewPager-with-FragmentPagerAdapter
 */
-public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     // Sparse array to keep track of registered fragments in memory
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 

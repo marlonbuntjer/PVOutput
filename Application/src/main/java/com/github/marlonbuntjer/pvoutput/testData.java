@@ -3,7 +3,7 @@ package com.github.marlonbuntjer.pvoutput;
 /**
  * Created by Marlon Buntjer on 5-8-2015.
  */
-public class testData {
+class testData {
 
     static String liveData = "20150707,21:20,15013,1234,9832,1010,0.002,20.3,234.1";
     static String todayData = "20150707,21:10,2674,0.782,0,0,0.000,4202,431,15.1,0.0;" +

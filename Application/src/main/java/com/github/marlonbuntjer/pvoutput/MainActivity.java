@@ -19,9 +19,11 @@ package com.github.marlonbuntjer.pvoutput;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +31,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -130,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
-        tabLayout.setTabTextColors(getResources().getColor(R.color.tab_text_unsel),
-                getResources().getColor(R.color.tab_text_sel));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.tab_text_unsel),
+                ContextCompat.getColor(this, R.color.tab_text_sel));
         tabLayout.setTabMode(TabLayout.MODE_FIXED); // distributes tabs width evenly
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -180,8 +183,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void launchPlayStore() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent playStore = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(playStore);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Unable to open Play Store", Toast.LENGTH_LONG).show();
+        }
+    }
 
-    protected void showAboutDialog() {
+    private void showAboutDialog() {
         // Inflate the about message contents
         View view = getLayoutInflater().inflate(R.layout.about, null, false);
 
@@ -189,16 +201,29 @@ public class MainActivity extends AppCompatActivity {
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setTitle(R.string.app_name);
         builder.setView(view);
-        builder.setPositiveButton("OK", null);
+        builder.setPositiveButton("Close", null);
+
+        builder.setNegativeButton("Rate this app",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        launchPlayStore();
+                    }
+                });
 
         //creating an alert dialog from our builder.
         AlertDialog dialog = builder.create();
         dialog.show();
 
         Button positive_button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
         if (positive_button != null) {
-            positive_button.setTextColor(getResources().getColor(R.color.accent));
+            positive_button.setTextColor(ContextCompat.getColor(this, R.color.accent));
+        }
+
+        Button negative_button = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        if (negative_button != null) {
+            negative_button.setTextColor(ContextCompat.getColor(this, R.color.accent));
         }
     }
 
@@ -321,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
         updateFragments();
     }
 
-    public void onRefreshFailed() {
+    private void onRefreshFailed() {
         // not connected to the network
         mProgress.dismiss();
         Toast toast = Toast.makeText(this, R.string.loading_failed_message, Toast.LENGTH_LONG);

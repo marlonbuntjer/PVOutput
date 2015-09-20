@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,9 +52,7 @@ public class TodayFragment extends Fragment {
 
     public static TodayFragment newInstance() {
         Log.d(TAG, "entering newInstance()");
-        TodayFragment todayFragment = new TodayFragment();
-
-        return todayFragment;
+        return new TodayFragment();
     }
 
     @Override
@@ -84,9 +83,19 @@ public class TodayFragment extends Fragment {
 
     private List<String[]> createTodayDataArray(String rawData) {
 
-        String[] tmpArray = rawData.split(";");
+        String[] tmpArray;
+
+        // if no data is downloaded, use an initial dataset
+        // most likely cause of no data is when someone doesn't upload live data, but only daily
+        if (rawData == null || rawData.equals("")) {
+            tmpArray = new String[1];
+            tmpArray[0] = "00000000,00:00,0,0,0,0,0,0,0,0,0";
+        } else {
+            tmpArray = rawData.split(";");
+        }
+
         String[] dayData;
-        String consumedPower;
+        String consumedPower, generatedPower, kWh;
         List<String[]> result = new ArrayList<String[]>();
 
         // format the date
@@ -108,7 +117,16 @@ public class TodayFragment extends Fragment {
                     time = dayData[1];
                 }
 
-                String kWh = formatEnergyValue(dayData[2]);
+                // make sure the generated power value is a numeric value
+                // this is required for the chart
+                if (dayData[4].equals("NaN")) {
+                    generatedPower = "0";
+                } else {
+                    generatedPower = dayData[4];
+                }
+
+                // format the energy value to kWh
+                kWh = formatEnergyValue(dayData[2]);
 
                 // show Power Consumption in list and chart if enabled in the preferences
                 // else just show Energy Generation in the list
@@ -118,9 +136,9 @@ public class TodayFragment extends Fragment {
                     } else {
                         consumedPower = dayData[8];
                     }
-                    result.add(new String[]{time, dayData[4], consumedPower});
+                    result.add(new String[]{time, generatedPower, consumedPower});
                 } else {
-                    result.add(new String[]{time, dayData[4], kWh});
+                    result.add(new String[]{time, generatedPower, kWh});
                 }
 
             } catch (NumberFormatException | NullPointerException | ParseException e) {
@@ -337,8 +355,8 @@ public class TodayFragment extends Fragment {
             setCons.setCubicIntensity(0.2f);
             setCons.setLineWidth(1.75f);
             setCons.setDrawCircles(false);
-            setCons.setColor(getResources().getColor(R.color.accent));
-            setCons.setHighLightColor(getResources().getColor(R.color.accent));
+            setCons.setColor(ContextCompat.getColor(getContext(), R.color.accent));
+            setCons.setHighLightColor(ContextCompat.getColor(getContext(), R.color.accent));
             setCons.setDrawValues(false);
 
             dataSets.add(setCons);

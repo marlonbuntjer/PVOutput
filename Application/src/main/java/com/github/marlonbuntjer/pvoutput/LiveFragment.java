@@ -43,9 +43,7 @@ public class LiveFragment extends Fragment {
 
     public static LiveFragment newInstance() {
         Log.d(TAG, "entering newInstance()");
-        LiveFragment liveFragment = new LiveFragment();
-
-        return liveFragment;
+        return new LiveFragment();
     }
 
     @Override
@@ -76,16 +74,24 @@ public class LiveFragment extends Fragment {
 
     private List<String[]> createLiveDataArray(String rawData) {
 
-        String[] liveData = rawData.split(",");
-        // 0 = Date
-        // 1 = Time
-        // 2 = Energy Generation
-        // 3 = Power Generation
-        // 4 = Energy Consumption
-        // 5 = Power Consumption
-        // 6 = Efficiency
-        // 7 = Temperature
-        // 8 = Voltage
+        String[] liveData;
+
+        // if no data is downloaded, use an initial dataset
+        // most likely cause of no data is when someone doesn't upload live data, but only daily
+        if (rawData == null || rawData.equals("")) {
+            liveData = "00000000,00:00,0,0,0,0,0,0,0".split(",");
+        } else {
+            liveData = rawData.split(",");
+            // 0 = Date
+            // 1 = Time
+            // 2 = Energy Generation
+            // 3 = Power Generation
+            // 4 = Energy Consumption
+            // 5 = Power Consumption
+            // 6 = Efficiency
+            // 7 = Temperature
+            // 8 = Voltage
+        }
 
         // set the power values for displaying in the fragment header
         powerGeneration = liveData[3];

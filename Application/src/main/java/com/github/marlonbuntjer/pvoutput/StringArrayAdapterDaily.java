@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Marlon Buntjer on 23-6-2015.
  */
-public class StringArrayAdapterDaily extends ArrayAdapter<String[]> {
+class StringArrayAdapterDaily extends ArrayAdapter<String[]> {
     private final Context context;
     private final List<String[]> data;
     private final int layoutResourceId;

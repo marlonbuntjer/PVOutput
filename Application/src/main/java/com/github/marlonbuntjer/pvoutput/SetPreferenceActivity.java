@@ -25,7 +25,6 @@ public class SetPreferenceActivity extends AppCompatActivity {
         transaction.commit();
 
         // enable the back button
-
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {

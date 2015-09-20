@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -287,7 +288,6 @@ public class DailyFragment extends Fragment {
             showNumberOfdays = dd.size();
         }
 
-        int maxPos = dd.size() - 1;
         for (int i = 0; i < showNumberOfdays; i++) {
             try {
                 xVals.add(dd.get(i)[0]);
@@ -308,14 +308,12 @@ public class DailyFragment extends Fragment {
 
         ArrayList<BarEntry> yValsGen = new ArrayList<BarEntry>();
         float energyGenerated;
-        float energyUsed;
 
         int showNumberOfdays = 30;
         if (dd.size() < 30) {
             showNumberOfdays = dd.size();
         }
 
-        int maxPos = dd.size() - 1;
         for (int i = 0; i < showNumberOfdays; i++) {
             try {
                 energyGenerated = Float.parseFloat(dd.get(i)[1]);
@@ -354,7 +352,6 @@ public class DailyFragment extends Fragment {
             showNumberOfdays = dd.size();
         }
 
-        int maxPos = dd.size() - 1;
         for (int i = 0; i < showNumberOfdays; i++) {
             try {
                 energyUsed = Float.parseFloat(dd.get(i)[2]);
@@ -373,8 +370,8 @@ public class DailyFragment extends Fragment {
         setCons.setCubicIntensity(0.2f);
         setCons.setLineWidth(1.75f);
         setCons.setDrawCircles(false);
-        setCons.setColor(getResources().getColor(R.color.accent));
-        setCons.setHighLightColor(getResources().getColor(R.color.accent));
+        setCons.setColor(ContextCompat.getColor(getContext(), R.color.accent));
+        setCons.setHighLightColor(ContextCompat.getColor(getContext(), R.color.accent));
         setCons.setDrawValues(false);
 
 

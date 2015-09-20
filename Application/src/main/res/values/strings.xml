@@ -16,11 +16,11 @@
 
 <resources>
 
-    <string name="versionName">1.02</string>
+    <string name="versionName">1.03</string>
     <string name="about_title">PV Output for Android</string>
     <string name="about_version">Version:</string>
     <string name="about_copyright_l1">© 2015 Marlon Buntjer.</string>
-    <string name="about_copyright_l2">All rights reserved.</string>
+    <string name="about_copyright_l2"><i>\'Do you like this app? I\'d appreciate it if you rate it.\'</i></string>
 
     <string name="settings_title">Settings</string>
 

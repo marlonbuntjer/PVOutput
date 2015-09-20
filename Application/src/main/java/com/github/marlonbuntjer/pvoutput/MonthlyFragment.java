@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -328,8 +329,8 @@ public class MonthlyFragment extends Fragment {
             BarDataSet set2 = new BarDataSet(yValsPreviousYear, String.valueOf(latestYear - 1));
 
             set2.setBarSpacePercent(80f);
-            set2.setColor(getResources().getColor(R.color.black));
-            set2.setHighLightColor(getResources().getColor(R.color.black));
+            set2.setColor(ContextCompat.getColor(getContext(), R.color.black));
+            set2.setHighLightColor(ContextCompat.getColor(getContext(), R.color.black));
             set2.setDrawValues(false);
 
             dataSets.add(set2);

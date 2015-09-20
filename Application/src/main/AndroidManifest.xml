@@ -15,7 +15,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.marlonbuntjer.pvoutput"
-    android:versionCode="9"
+    android:versionCode="10"
     android:versionName="@string/versionName">
 
     <uses-sdk
