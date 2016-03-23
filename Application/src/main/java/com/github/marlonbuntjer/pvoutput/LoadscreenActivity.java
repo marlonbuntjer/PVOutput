@@ -73,6 +73,7 @@ public class LoadscreenActivity extends Activity {
                 // not connected to the network
                 Toast toast = Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG);
                 toast.show();
+                // // TODO: 23-3-2016 Add retry option or close the app after X seconds
             }
         }
     }
@@ -228,7 +229,6 @@ public class LoadscreenActivity extends Activity {
         Downloader downloader;
         private boolean connOK = true;
         private boolean pvOutputConnectionException = false;
-        private boolean PVOutputNoStatusFoundException = false;
 
         @Override
         protected String doInBackground(String... urls) {
