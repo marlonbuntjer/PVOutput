@@ -20,6 +20,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -308,7 +309,7 @@ public class TodayFragment extends Fragment {
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yValsGen = new ArrayList<Entry>();
         ArrayList<Entry> yValsCons = new ArrayList<Entry>();
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         float power;
 
         int maxPos = td.size() - 1;

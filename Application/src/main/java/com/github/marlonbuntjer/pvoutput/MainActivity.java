@@ -20,9 +20,12 @@ package com.github.marlonbuntjer.pvoutput;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -298,14 +301,20 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Execute the background task, which uses {@link android.os.AsyncTask} to load the data.
          */
-        if (allowRefresh()) {
-            showProgressDialog();
-            PVOutputApiUrls urls = new PVOutputApiUrls(this);
-            List<String> urlList = urls.getData();
+        if (checkNetworkConnection()) {
+            if (allowRefresh()) {
+                showProgressDialog();
+                PVOutputApiUrls urls = new PVOutputApiUrls(this);
+                List<String> urlList = urls.getData();
 
-            new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2), urlList.get(3), urlList.get(4));
+                new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2), urlList.get(3), urlList.get(4));
+            } else {
+                Toast toast = Toast.makeText(this, R.string.too_recently_refreshed_message, Toast.LENGTH_LONG);
+                toast.show();
+            }
         } else {
-            Toast toast = Toast.makeText(this, R.string.too_recently_refreshed_message, Toast.LENGTH_LONG);
+            // not connected to the network
+            Toast toast = Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG);
             toast.show();
         }
     }
@@ -316,6 +325,13 @@ public class MainActivity extends AppCompatActivity {
         mProgress.setIndeterminate(true);
         mProgress.setMessage(getString(R.string.loading_message));
         mProgress.show();
+    }
+
+    private boolean checkNetworkConnection() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     /**
