@@ -27,7 +27,7 @@ public class LoadscreenActivity extends Activity {
 
     private static final String TAG = LoadscreenActivity.class.getSimpleName();
     private static final String PREFS_NAME = "SHAREDPREFS";
-    private static String liveData, todayData, dailyData, monthlyData, lifetimeData;
+    private static String liveData, todayData, dailyData, monthlyData, yearlyData, lifetimeData;
     private ProgressDialog mProgress;
     private AlertDialog alert;
     private SharedPreferences defSharedPreferences;
@@ -65,8 +65,9 @@ public class LoadscreenActivity extends Activity {
                 Log.d(TAG, "urlList_2 = " + urlList.get(2));
                 Log.d(TAG, "urlList_3 = " + urlList.get(3));
                 Log.d(TAG, "urlList_4 = " + urlList.get(4));
+                Log.d(TAG, "urlList_5 = " + urlList.get(5));
 
-                new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2), urlList.get(3), urlList.get(4));
+                new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2), urlList.get(3), urlList.get(4), urlList.get(5));
 
                 showProgressDialog();
             } else {
@@ -203,6 +204,7 @@ public class LoadscreenActivity extends Activity {
         editor.putString("TODAYDATA", todayData);
         editor.putString("DAILYDATA", dailyData);
         editor.putString("MONTHLYDATA", monthlyData);
+        editor.putString("YEARLYDATA", yearlyData);
         editor.putString("LIFETIMEDATA", lifetimeData);
 
         // Store the first loadtime to prevent refreshing too often
@@ -242,6 +244,7 @@ public class LoadscreenActivity extends Activity {
                 todayData = testData.todayData;
                 dailyData = testData.dailyData;
                 monthlyData = testData.monthlyData;
+                yearlyData = testData.yearlyData;
                 lifetimeData = testData.lifetimeData;
             } else {
                 try {
@@ -249,7 +252,8 @@ public class LoadscreenActivity extends Activity {
                     todayData = downloader.loadFromNetwork(urls[1]);
                     dailyData = downloader.loadFromNetwork(urls[2]);
                     monthlyData = downloader.loadFromNetwork(urls[3]);
-                    lifetimeData = downloader.loadFromNetwork(urls[4]);
+                    yearlyData = downloader.loadFromNetwork(urls[4]);
+                    lifetimeData = downloader.loadFromNetwork(urls[5]);
 
                     // catch exceptions -> set booleans so in onPostExecute the proper
                     // error handling can be done.
@@ -284,8 +288,11 @@ public class LoadscreenActivity extends Activity {
                     String[] em = downloader.getErrorStreamMessage().split(": ");
                     try {
                         errorMessage = em[1];
-                    } catch (NumberFormatException | NullPointerException
-                            | ArrayIndexOutOfBoundsException e) {
+                    } catch (NumberFormatException e) {
+                        Log.d(TAG, "createDailyDataArray - Exception: " + e.getMessage());
+                    } catch (NullPointerException e) {
+                        Log.d(TAG, "createDailyDataArray - Exception: " + e.getMessage());
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         Log.d(TAG, "createDailyDataArray - Exception: " + e.getMessage());
                     }
                 }

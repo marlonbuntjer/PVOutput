@@ -66,6 +66,14 @@ class PVOutputApiUrls {
                 + date + "&a=m";
     }
 
+    private String getYearlyDataUrl(String date) {
+        return res.getString(R.string.pvoutput_api_url) + ""
+                + res.getString(R.string.pvoutput_api_service_output) + "?"
+                + "key=" + pvoutput_apikey + "&"
+                + "sid=" + pvoutput_sid + "&d="
+                + date + "&a=y";
+    }
+
     private String getLifetimeDataUrl(String date) {
         return res.getString(R.string.pvoutput_api_url) + ""
                 + res.getString(R.string.pvoutput_api_service_statistic) + "?"
@@ -96,6 +104,7 @@ class PVOutputApiUrls {
         String today = getTodayDataUrl(strDate);
         String daily = getDailyDataUrl(strDate);
         String monthly = getMonthlyDataUrl(strDate);
+        String yearly = getYearlyDataUrl(strDate);
         String lifetime = getLifetimeDataUrl(strDate);
 
         List<String> urlList = new ArrayList<String>();
@@ -103,6 +112,7 @@ class PVOutputApiUrls {
         urlList.add(today);
         urlList.add(daily);
         urlList.add(monthly);
+        urlList.add(yearly);
         urlList.add(lifetime);
 
         return urlList;

@@ -22,7 +22,7 @@
     </style>
 
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">10dp</item>
         <item name="textAllCaps">true</item>
     </style>
 

@@ -274,6 +274,7 @@ public class TodayFragment extends Fragment {
 
         data.setValueTextColor(Color.WHITE);
 
+
         XAxis xAxis = chart.getXAxis();
         xAxis.setTextColor(Color.WHITE);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -346,6 +347,11 @@ public class TodayFragment extends Fragment {
         setGen.setLineWidth(1.75f);
         setGen.setDrawCircles(false);
         setGen.setColor(Color.WHITE);
+
+        //linechart fill. (alpha level is set to 85 by default)
+        setGen.setDrawFilled(true);
+        setGen.setFillColor(Color.WHITE);
+
         setGen.setHighLightColor(Color.WHITE);
         setGen.setDrawValues(false);
 

@@ -36,6 +36,7 @@
     <string name="pagetitle_today">TODAY</string>
     <string name="pagetitle_daily">DAILY</string>
     <string name="pagetitle_monthly">MONTHLY</string>
+    <string name="pagetitle_yearly">YEARLY</string>
     <string name="pagetitle_lifetime">LIFETIME</string>
 
     <string name="total_energy">Total Energy</string>
@@ -45,6 +46,7 @@
     <string name="time">Time</string>
     <string name="date">Date</string>
     <string name="month">Month</string>
+    <string name="year">Year</string>
 
     <string name="generated">generated</string>
     <string name="consumed">consumed</string>
@@ -81,5 +83,9 @@
     <string name="loading_failed_try_again">Please try again later</string>
     <string name="invalid_api_key_message">Invalid API Key or System ID provided \nChoose \'SETTINGS\' to enter valid values</string>
     <string name="too_recently_refreshed_message">too recently refreshed</string>
+
+    <string name="element_text">Element</string>
+    <string name="grid_layout_manager">Grid Layout Manager</string>
+    <string name="linear_layout_manager">Linear Layout Manager</string>
 
 </resources>

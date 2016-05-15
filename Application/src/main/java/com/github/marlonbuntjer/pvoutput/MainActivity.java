@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
     private DailyFragment dailyFragment = null;
     private MonthlyFragment monthlyFragment = null;
     private LifetimeFragment lifetimeFragment = null;
-    private String refreshedLiveData, refreshedTodayData, refreshedDailyData, refreshedMonthlyData, refreshedLifetimeData;
+    private YearlyFragment yearlyFragment = null;
+    private String refreshedLiveData, refreshedTodayData, refreshedDailyData, refreshedMonthlyData,
+            refreshedYearlyData, refreshedLifetimeData;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences mDefaultSharedPrefs;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "todayData = " + mSharedPreferences.getString("TODAYDATA", ""));
         Log.d(TAG, "dailyData = " + mSharedPreferences.getString("DAILYDATA", ""));
         Log.d(TAG, "monthlyData = " + mSharedPreferences.getString("MONTHLYDATA", ""));
+        Log.d(TAG, "yearlyData = " + mSharedPreferences.getString("YEARLYDATA", ""));
         Log.d(TAG, "lifetimeData = " + mSharedPreferences.getString("LIFETIMEDATA", ""));
 
         mDefaultSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.tab_text_unsel),
                 ContextCompat.getColor(this, R.color.tab_text_sel));
-        tabLayout.setTabMode(TabLayout.MODE_FIXED); // distributes tabs width evenly
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE); // Scrollable tabs
         tabLayout.setupWithViewPager(mViewPager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -268,7 +271,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "updateMostRecentData for monthlyFragment");
         }
 
-        lifetimeFragment = (LifetimeFragment) mAppSectionsPagerAdapter.getRegisteredFragment(4);
+        yearlyFragment = (YearlyFragment) mAppSectionsPagerAdapter.getRegisteredFragment(4);
+        if (yearlyFragment != null) {
+            yearlyFragment.updateMostRecentData();
+            Log.d(TAG, "updateMostRecentData for yearlyFragment");
+        }
+
+        lifetimeFragment = (LifetimeFragment) mAppSectionsPagerAdapter.getRegisteredFragment(5);
         if (lifetimeFragment != null) {
             lifetimeFragment.updateMostRecentData();
             Log.d(TAG, "updateMostRecentData for lifetimeFragment");
@@ -307,7 +316,8 @@ public class MainActivity extends AppCompatActivity {
                 PVOutputApiUrls urls = new PVOutputApiUrls(this);
                 List<String> urlList = urls.getData();
 
-                new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2), urlList.get(3), urlList.get(4));
+                new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2),
+                        urlList.get(3), urlList.get(4), urlList.get(5));
             } else {
                 Toast toast = Toast.makeText(this, R.string.too_recently_refreshed_message, Toast.LENGTH_LONG);
                 toast.show();
@@ -349,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("TODAYDATA", refreshedTodayData);
         editor.putString("DAILYDATA", refreshedDailyData);
         editor.putString("MONTHLYDATA", refreshedMonthlyData);
+        editor.putString("YEARLYDATA", refreshedYearlyData);
         editor.putString("LIFETIMEDATA", refreshedLifetimeData);
         editor.putLong("REFRESHTIME", System.currentTimeMillis());
 
@@ -399,6 +410,9 @@ public class MainActivity extends AppCompatActivity {
                     monthlyFragment = MonthlyFragment.newInstance();
                     return monthlyFragment;
                 case 4:
+                    yearlyFragment = YearlyFragment.newInstance();
+                    return yearlyFragment;
+                case 5:
                     lifetimeFragment = LifetimeFragment.newInstance();
                     return lifetimeFragment;
                 default:
@@ -411,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
 
         @Override
@@ -431,6 +445,9 @@ public class MainActivity extends AppCompatActivity {
                     pageTitle = "Monthly";
                     break;
                 case 4:
+                    pageTitle = "Yearly";
+                    break;
+                case 5:
                     pageTitle = "Lifetime";
                     break;
                 default:
@@ -468,7 +485,8 @@ public class MainActivity extends AppCompatActivity {
                 refreshedTodayData = downloader.loadFromNetwork(urls[1]);
                 refreshedDailyData = downloader.loadFromNetwork(urls[2]);
                 refreshedMonthlyData = downloader.loadFromNetwork(urls[3]);
-                refreshedLifetimeData = downloader.loadFromNetwork(urls[4]);
+                refreshedYearlyData = downloader.loadFromNetwork(urls[4]);
+                refreshedLifetimeData = downloader.loadFromNetwork(urls[5]);
             } catch (IOException | PVOutputConnectionException e) {
                 Log.d(TAG, "DownloadDataTask IOException: " + e.toString() + "");
                 refreshfailed = true;
