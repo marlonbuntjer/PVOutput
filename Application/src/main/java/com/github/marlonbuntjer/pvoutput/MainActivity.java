@@ -45,6 +45,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -76,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will display the four primary sections of the app, one at a
      * time.
      */
-    private ViewPager mViewPager;
     private LiveFragment liveFragment = null;
     private TodayFragment todayFragment = null;
     private DailyFragment dailyFragment = null;
@@ -91,10 +93,27 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog mProgress;
 
+    /**
+     * The {@link ViewPager} that will host the patterns.
+     */
+    private ViewPager mViewPager;
+
+    /**
+     * The {@link Tracker} used to record screen views.
+     */
+    private Tracker mTracker;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        // [END shared_tracker]
 
         mSharedPreferences = getSharedPreferences(PREFS_NAME, 0);
         Log.d(TAG, "liveData = " + mSharedPreferences.getString("LIVEDATA", ""));
@@ -103,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "monthlyData = " + mSharedPreferences.getString("MONTHLYDATA", ""));
         Log.d(TAG, "yearlyData = " + mSharedPreferences.getString("YEARLYDATA", ""));
         Log.d(TAG, "lifetimeData = " + mSharedPreferences.getString("LIFETIMEDATA", ""));
+        Log.d(TAG, "systemData = " + mSharedPreferences.getString("SYSTEMDATA", ""));
 
         mDefaultSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -135,6 +155,16 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
 
+        // When the displayed fragment changes, send a screen view hit.
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                sendScreenName();
+            }
+        });
+
+        // Send initial screen screen view hit.
+        sendScreenName();
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -149,9 +179,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume - Refreshing data");
+        // onResume is called after onCreate so to avoid double loading the data when the app
+        // starts an extra check is done before initiating the refresh
+        if (timeTillRefreshAllowed() < 0) {
+            initiateRefresh();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mDefaultSharedPrefs.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    /**
+     * Return the title of the currently displayed fragment.
+     *
+     * @return title of fragment
+     */
+    private String getCurrentFragmentTitle() {
+        int position = mViewPager.getCurrentItem();
+        return mAppSectionsPagerAdapter.getPageTitle(position).toString();
+    }
+
+    /**
+     * Record a screen view hit for the visible displayed fragment
+     * inside {@link AppSectionsPagerAdapter}.
+     */
+    private void sendScreenName() {
+        String name = getCurrentFragmentTitle();
+
+        // [START screen_view_hit]
+        Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("Screen~" + name);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END screen_view_hit]
     }
 
     @Override
@@ -168,12 +233,24 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.menu_refresh:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("Refresh")
+                        .build());
                 initiateRefresh();
                 return true;
             case R.id.menu_settings:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("Preferences")
+                        .build());
                 showPrefsFragment();
                 return true;
             case R.id.menu_about:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("About")
+                        .build());
                 showAboutDialog();
                 return true;
             default:
@@ -289,38 +366,44 @@ public class MainActivity extends AppCompatActivity {
 
     // method to check if the user is spamming refresh and
     // thus burning up the max 60 api calls per hour
-    private boolean allowRefresh() {
+    private long timeTillRefreshAllowed() {
         long refreshTimeoutInMillis = REFRESHTIMEOUT * 1000;
         long lastRefreshTime = mSharedPreferences.getLong("REFRESHTIME", 0L);
+        long secondsTillRefreshAllowed = (lastRefreshTime + refreshTimeoutInMillis - System.currentTimeMillis()) / 1000;
 
-        if (lastRefreshTime + refreshTimeoutInMillis < System.currentTimeMillis()) {
-            Log.d(TAG, "allowRefresh - allowed (min " + REFRESHTIMEOUT + " sec). Last refreshed at: "
-                    + lastRefreshTime + " (" + new Date(lastRefreshTime).toString() + ")");
-            return true;
-        } else {
-            Log.d(TAG, "allowRefresh - not allowed (min " + REFRESHTIMEOUT + " sec). Last refreshed at: "
-                    + lastRefreshTime + " (" + new Date(lastRefreshTime).toString() + ")");
-            return false;
-        }
+        Log.d(TAG, "timeTillRefreshAllowed - Last refreshed at: " + new Date(lastRefreshTime).toString());
+        Log.d(TAG, "timeTillRefreshAllowed - Last refreshed at: " + lastRefreshTime);
+        Log.d(TAG, "timeTillRefreshAllowed - Refresh timeout: " + refreshTimeoutInMillis);
+        Log.d(TAG, "timeTillRefreshAllowed - System time: " + System.currentTimeMillis());
+        Log.d(TAG, "timeTillRefreshAllowed - Seconds till refresh allowed: " + secondsTillRefreshAllowed);
+
+        return secondsTillRefreshAllowed;
     }
 
-    // Starting point for reloading the latest data from pvoutput.org
+    /**
+     * Starting point for reloading the latest data from pvoutput.org
+     * Execute the background task, which uses {@link android.os.AsyncTask} to load the data.
+     */
     private void initiateRefresh() {
         Log.i(TAG, "initiateRefresh");
-        /**
-         * Execute the background task, which uses {@link android.os.AsyncTask} to load the data.
-         */
+        long timeLeft = timeTillRefreshAllowed();
+
         if (checkNetworkConnection()) {
-            if (allowRefresh()) {
+            // Show a toast message when a refresh is not yet allowed
+            if (timeLeft > 0) {
+                int minutesLeft = (int) (timeLeft % 3600) / 60;
+                int secondsLeft = (int) timeLeft % 60;
+
+                Toast toast = Toast.makeText(this, getString(R.string.too_recently_refreshed_message,
+                        minutesLeft, secondsLeft), Toast.LENGTH_LONG);
+                toast.show();
+            } else {
                 showProgressDialog();
                 PVOutputApiUrls urls = new PVOutputApiUrls(this);
                 List<String> urlList = urls.getData();
 
                 new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2),
                         urlList.get(3), urlList.get(4), urlList.get(5));
-            } else {
-                Toast toast = Toast.makeText(this, R.string.too_recently_refreshed_message, Toast.LENGTH_LONG);
-                toast.show();
             }
         } else {
             // not connected to the network
@@ -367,7 +450,9 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
 
         // hide the mProgress dialog
-        mProgress.dismiss();
+        if (mProgress != null) {
+            mProgress.dismiss();
+        }
 
         // update the fragments in the viewpager with the latest data
         updateFragments();
@@ -416,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
                     lifetimeFragment = LifetimeFragment.newInstance();
                     return lifetimeFragment;
                 default:
-                    // The position should always be 0 to 4.
+                    // The position should always be 0 to 5.
                     // If not, just present the LIVE fragment
                     liveFragment = LiveFragment.newInstance();
                     return liveFragment;

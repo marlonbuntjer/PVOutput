@@ -4,11 +4,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 repositories {
     jcenter()
@@ -16,11 +18,12 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:gridlayout-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:gridlayout-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
+    compile 'com.google.android.gms:play-services-analytics:9.0.0'
 }
 
 // The sample build uses multiple directories to
@@ -38,6 +41,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 23
+        applicationId "com.github.marlonbuntjer.pvoutput"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

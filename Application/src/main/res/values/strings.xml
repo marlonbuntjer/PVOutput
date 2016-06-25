@@ -57,6 +57,7 @@
     <string name="pvoutput_api_service_status">getstatus.jsp</string>
     <string name="pvoutput_api_service_statistic">getstatistic.jsp</string>
     <string name="pvoutput_api_service_output">getoutput.jsp</string>
+    <string name="pvoutput_api_service_system">getsystem.jsp</string>
 
     <string name="pvoutput_date">Date</string>
     <string name="pvoutput_time">Time</string>
@@ -82,10 +83,12 @@
     <string name="loading_failed_message">Failed to load data</string>
     <string name="loading_failed_try_again">Please try again later</string>
     <string name="invalid_api_key_message">Invalid API Key or System ID provided \nChoose \'SETTINGS\' to enter valid values</string>
-    <string name="too_recently_refreshed_message">too recently refreshed</string>
+    <string name="too_recently_refreshed_message">Refresh possible in %1$d minutes and %2$d seconds</string>
 
     <string name="element_text">Element</string>
     <string name="grid_layout_manager">Grid Layout Manager</string>
     <string name="linear_layout_manager">Linear Layout Manager</string>
 
+    <!-- preference items-->
+    <string name="preferenceSaveButton">Save</string>
 </resources>

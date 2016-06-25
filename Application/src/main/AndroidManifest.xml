@@ -29,6 +29,7 @@
     <!--<uses-feature android:name="android.hardware.screen.portrait" />-->
 
     <application
+        android:name="AnalyticsApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">

@@ -82,6 +82,13 @@ class PVOutputApiUrls {
                 + date;
     }
 
+    private String getSystemDataUrl() {
+        return res.getString(R.string.pvoutput_api_url) + ""
+                + res.getString(R.string.pvoutput_api_service_system) + "?"
+                + "key=" + pvoutput_apikey + "&"
+                + "sid=" + pvoutput_sid;
+    }
+
     public List<String> getData() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyyMMdd", Locale.US);
         Date now = new Date();
@@ -106,6 +113,7 @@ class PVOutputApiUrls {
         String monthly = getMonthlyDataUrl(strDate);
         String yearly = getYearlyDataUrl(strDate);
         String lifetime = getLifetimeDataUrl(strDate);
+        String system = getSystemDataUrl();
 
         List<String> urlList = new ArrayList<String>();
         urlList.add(live);
@@ -114,6 +122,7 @@ class PVOutputApiUrls {
         urlList.add(monthly);
         urlList.add(yearly);
         urlList.add(lifetime);
+        urlList.add(system);
 
         return urlList;
 

@@ -24,6 +24,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -73,7 +74,7 @@ public class YearlyFragment extends Fragment {
             Log.d(TAG, "onCreate: savedInstanceState == null");
             updateMostRecentData();
             for (String[] data : yearlyData) {
-                Log.v(TAG, "onCreate - " + data[0] + ", " + data[1] + ", " + data[2] + ", " + data[3]);
+                Log.v(TAG, "onCreate - " + data[0] + ", " + data[1] + ", " + data[2]);
             }
         }
     }
@@ -108,12 +109,9 @@ public class YearlyFragment extends Fragment {
             // else just show Energy Generation in the list
             if (mConsumptionEnabled) {
                 String used = formatEnergyValue(yearData[5]);
-                result.add(new String[]{year, generated, used, yearData[0]});
+                result.add(new String[]{year, generated, used});
             } else {
-                // The StringArrayAdapter will only show the data at position 0, 1 and 2
-                // the monthData[0] is added so this List can be reused for the chart using a different
-                // date formatting
-                result.add(new String[]{year, "", generated, yearData[0]});
+                result.add(new String[]{year, "", generated});
             }
 
         }
@@ -232,6 +230,15 @@ public class YearlyFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setLabelsToSkip(0);
 
+        // Determine the amount of xAxis labels to skip based on the current number of dataset entries
+        int xValCount = data.getXValCount();
+        Log.d(TAG, "The mumber of X axis values for the chart is: " + xValCount);
+        if (xValCount > 7 && xValCount <= 10) {
+            xAxis.setLabelsToSkip(1);
+        } else if (xValCount > 10) {
+            xAxis.setLabelsToSkip(2);
+        }
+
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setAxisMinValue(0f);
@@ -265,8 +272,11 @@ public class YearlyFragment extends Fragment {
                 energy = Float.parseFloat(dataset.get(i)[2]);
             }
             xVals.add(dataset.get(i)[0]);
-            yVals.add(new BarEntry(energy, i));
+            yVals.add(new BarEntry(energy, (maxIterations - 1) - i));
         }
+
+        Collections.reverse(xVals);
+
 
         Log.v(TAG, "numberOfYearsAvailable = " + numberOfYearsAvailable);
         Log.v(TAG, "maxIterations = " + maxIterations);
@@ -275,7 +285,7 @@ public class YearlyFragment extends Fragment {
         // create a dataset and give it a label
         BarDataSet set1 = new BarDataSet(yVals, "Yearly");
 
-        set1.setBarSpacePercent(25f);
+        set1.setBarSpacePercent(80f);
         set1.setColor(Color.WHITE);
         set1.setHighLightColor(Color.WHITE);
         set1.setDrawValues(false);
