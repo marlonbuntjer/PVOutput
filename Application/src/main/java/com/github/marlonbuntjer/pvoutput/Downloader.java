@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 /**
@@ -55,13 +56,15 @@ class Downloader {
         try {
             URL url = new URL(urlString);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setReadTimeout(15000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             // Start the query
             conn.connect();
             inputStream = conn.getInputStream();
+        } catch (SocketTimeoutException ste) {
+            throw new PVOutputConnectionException();
         } catch (IOException e) {
             if (conn != null) {
                 // Reading the response body cleans up the connection even if

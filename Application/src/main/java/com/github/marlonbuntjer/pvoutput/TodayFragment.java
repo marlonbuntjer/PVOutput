@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -20,6 +22,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -40,6 +43,7 @@ public class TodayFragment extends Fragment {
     private static final String PREFS_NAME = "SHAREDPREFS";
     private static List<String[]> todayData;
     private LineChart mChart;
+    private LineData data;
     private SharedPreferences mSharedPreferences;
     private boolean mConsumptionEnabled;
 
@@ -209,19 +213,33 @@ public class TodayFragment extends Fragment {
         // build the chart
         mChart = (LineChart) view.findViewById(R.id.todaychart);
 
-        /**
-         * The {@link android.widget.ListView} that displays the content that should be refreshed.
-         */
-        mListView = (ListView) view.findViewById(android.R.id.list);
-
         try {
-            LineData data = getData(todayData);
+            data = getData(todayData);
 
             setupChart(mChart, data);
 
         } catch (NullPointerException e) {
             Log.d(TAG, "onCreateView - Exception " + e.getMessage() + ". " + todayData);
         }
+
+        /**
+         * The {@link android.widget.ListView} that displays the content that should be refreshed.
+         */
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                String[] temp = (String[]) parent.getItemAtPosition(position);
+                Log.d(TAG, "Item clicked at position " + position + " array length = " + temp.length);
+                for (int i = 0; i < temp.length; i++) {
+                    Log.d(TAG, "value at " + i + " is " + temp[i]);
+                }
+
+                Toast.makeText(getContext(), "Showing today data for " + temp[0], Toast.LENGTH_SHORT).show();
+                mChart.highlightValue(position, 0);
+
+            }
+        });
 
         return view;
     }
@@ -273,6 +291,7 @@ public class TodayFragment extends Fragment {
 
         data.setValueTextColor(Color.WHITE);
 
+
         XAxis xAxis = chart.getXAxis();
         xAxis.setTextColor(Color.WHITE);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -308,7 +327,7 @@ public class TodayFragment extends Fragment {
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yValsGen = new ArrayList<Entry>();
         ArrayList<Entry> yValsCons = new ArrayList<Entry>();
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         float power;
 
         int maxPos = td.size() - 1;
@@ -345,6 +364,14 @@ public class TodayFragment extends Fragment {
         setGen.setLineWidth(1.75f);
         setGen.setDrawCircles(false);
         setGen.setColor(Color.WHITE);
+
+        // highlight a value when touching a listview item
+        setGen.setHighlightEnabled(true);
+
+        //linechart fill. (alpha level is set to 85 by default)
+        setGen.setDrawFilled(true);
+        setGen.setFillColor(Color.WHITE);
+
         setGen.setHighLightColor(Color.WHITE);
         setGen.setDrawValues(false);
 
@@ -363,6 +390,7 @@ public class TodayFragment extends Fragment {
         }
 
         dataSets.add(setGen);
+
 
         // create and return the data object with the datasets
         return new LineData(xVals, dataSets);

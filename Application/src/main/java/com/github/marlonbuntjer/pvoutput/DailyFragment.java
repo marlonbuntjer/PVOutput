@@ -1,5 +1,6 @@
 package com.github.marlonbuntjer.pvoutput;
 
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
@@ -180,7 +183,6 @@ public class DailyFragment extends Fragment {
                     + getResources().getString(R.string.pvoutput_energy_uom) + ")");
         }
 
-
         // build the chart
         CombinedChart mChart = (CombinedChart) view.findViewById(R.id.dailychart);
 
@@ -188,6 +190,19 @@ public class DailyFragment extends Fragment {
          * The {@link android.widget.ListView} that displays the content that should be refreshed.
          */
         mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                String[] temp = (String[]) parent.getItemAtPosition(position);
+                Log.d(TAG, "Item clicked at position " + position + " array length = " + temp.length);
+                for (int i = 0; i < temp.length; i++) {
+                    Log.d(TAG, "value at " + i + " is " + temp[i]);
+                }
+
+                Toast.makeText(getContext(), "Showing daily data for " + temp[0], Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         try {
 
@@ -211,8 +226,7 @@ public class DailyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         /**
-         * Create an ArrayAdapter to contain the data for the ListView. Each item in the ListView
-         * uses the system-defined simple_list_item_1 layout that contains one TextView.
+         * Create an ArrayAdapter to contain the data for the ListView.
          */
         mListAdapter = new StringArrayAdapterDaily(
                 getActivity(),
@@ -222,7 +236,6 @@ public class DailyFragment extends Fragment {
         // Set the adapter between the ListView and its backing data.
         mListView.setAdapter(mListAdapter);
     }
-
 
     private void setupChart(CombinedChart chart, CombinedData data) {
 
@@ -304,6 +317,9 @@ public class DailyFragment extends Fragment {
         return xVals;
     }
 
+    /**
+     * Create the BarData set for energy generation
+     */
     private BarData getBarData(List<String[]> dd) {
 
         ArrayList<BarEntry> yValsGen = new ArrayList<BarEntry>();
@@ -342,6 +358,9 @@ public class DailyFragment extends Fragment {
         return d;
     }
 
+    /**
+     * Create the LineData set for energy consumption
+     */
     private LineData getLineData(List<String[]> dd) {
 
         ArrayList<Entry> yValsCons = new ArrayList<Entry>();
