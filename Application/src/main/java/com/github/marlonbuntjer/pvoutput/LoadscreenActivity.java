@@ -88,9 +88,11 @@ public class LoadscreenActivity extends Activity {
     private void startMainDownload() {
         String[] splitSystemData = systemData.split(",");
 
-        systemName = splitSystemData[0];
-        if (systemName.length() > 30) {
-            systemName = systemName.substring(0, 30);
+        if (splitSystemData.length > 0) {
+            systemName = splitSystemData[0];
+            if (systemName.length() > 30) {
+                systemName = systemName.substring(0, 30);
+            }
         }
 
         new DownloadDataTask().execute(urlList.get(0), urlList.get(1), urlList.get(2), urlList.get(3), urlList.get(4), urlList.get(5));
@@ -235,7 +237,7 @@ public class LoadscreenActivity extends Activity {
         editor.putString("MONTHLYDATA", monthlyData);
         editor.putString("YEARLYDATA", yearlyData);
         editor.putString("LIFETIMEDATA", lifetimeData);
-        editor.putString("SYSTEMNAME", systemData);
+        editor.putString("SYSTEMNAME", systemName);
 
         // Store the first loadtime to prevent refreshing too often
         editor.putLong("REFRESHTIME", System.currentTimeMillis());

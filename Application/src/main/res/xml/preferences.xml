@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="PV Output settings">
+    <PreferenceCategory
+        android:key="pvoutput_system"
+        android:title="PV Output settings">
 
         <EditTextPreference
             android:key="pvoutput_apikey"
