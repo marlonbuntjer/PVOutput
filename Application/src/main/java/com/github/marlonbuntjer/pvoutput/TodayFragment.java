@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -226,7 +224,11 @@ public class TodayFragment extends Fragment {
          * The {@link android.widget.ListView} that displays the content that should be refreshed.
          */
         mListView = (ListView) view.findViewById(android.R.id.list);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        /**
+         * The onItemClickListener is already defined for possible future use
+         */
+        /*mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 String[] temp = (String[]) parent.getItemAtPosition(position);
@@ -239,7 +241,7 @@ public class TodayFragment extends Fragment {
                 mChart.highlightValue(position, 0);
 
             }
-        });
+        });*/
 
         return view;
     }
