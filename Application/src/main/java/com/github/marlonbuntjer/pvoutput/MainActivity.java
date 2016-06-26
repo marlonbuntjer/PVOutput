@@ -372,9 +372,9 @@ public class MainActivity extends AppCompatActivity {
         long secondsTillRefreshAllowed = (lastRefreshTime + refreshTimeoutInMillis - System.currentTimeMillis()) / 1000;
 
         Log.d(TAG, "timeTillRefreshAllowed - Last refreshed at: " + new Date(lastRefreshTime).toString());
-        Log.d(TAG, "timeTillRefreshAllowed - Last refreshed at: " + lastRefreshTime);
-        Log.d(TAG, "timeTillRefreshAllowed - Refresh timeout: " + refreshTimeoutInMillis);
-        Log.d(TAG, "timeTillRefreshAllowed - System time: " + System.currentTimeMillis());
+        Log.v(TAG, "timeTillRefreshAllowed - Last refreshed at: " + lastRefreshTime);
+        Log.v(TAG, "timeTillRefreshAllowed - Refresh timeout: " + refreshTimeoutInMillis);
+        Log.v(TAG, "timeTillRefreshAllowed - System time: " + System.currentTimeMillis());
         Log.d(TAG, "timeTillRefreshAllowed - Seconds till refresh allowed: " + secondsTillRefreshAllowed);
 
         return secondsTillRefreshAllowed;
