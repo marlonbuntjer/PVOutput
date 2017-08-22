@@ -79,26 +79,28 @@ public class LiveFragment extends Fragment {
         // if no data is downloaded, use an initial dataset
         // most likely cause of no data is when someone doesn't upload live data, but only daily
         if (rawData == null || rawData.equals("")) {
-            liveData = "00000000,00:00,0,0,0,0,0,0,0".split(",");
+            liveData = "00000000,00:00,0,0,0,0,0,0,0,0,0".split(",");
         } else {
             liveData = rawData.split(",");
             // 0 = Date
             // 1 = Time
             // 2 = Energy Generation
-            // 3 = Power Generation
-            // 4 = Energy Consumption
-            // 5 = Power Consumption
-            // 6 = Efficiency
-            // 7 = Temperature
-            // 8 = Voltage
+            // 3 = Energy Efficiency
+            // 4 = Instantaneous Power
+            // 5 = Average Power
+            // 6 = Normalised Output
+            // 7 = Energy Consumption
+            // 8 = Power Consumption
+            // 9 = Temperature
+            // 10 = Voltage
         }
 
         // set the power values for displaying in the fragment header
-        powerGeneration = liveData[3];
-        if (liveData[5].equals("NaN")) {
+        powerGeneration = liveData[4];
+        if (liveData[8].equals("NaN")) {
             powerConsumption = "0";
         } else {
-            powerConsumption = liveData[5];
+            powerConsumption = liveData[8];
         }
 
         List<String[]> result = new ArrayList<String[]>();
@@ -106,11 +108,12 @@ public class LiveFragment extends Fragment {
         try {
             result.add(new String[]{"Energy Generation", formatEnergyValue(liveData[2]), "kWh"});
             if (mConsumptionEnabled) {
-                result.add(new String[]{"Energy Consumption", formatEnergyValue(liveData[4]), "kWh"});
+                result.add(new String[]{"Energy Consumption", formatEnergyValue(liveData[7]), "kWh"});
             }
-            result.add(new String[]{"Efficiency", liveData[6], "kWh/kW"});
-            result.add(new String[]{"Temperature", liveData[7], " \u2103"});
-            result.add(new String[]{"Voltage", String.format("%4.0f", Double.parseDouble(liveData[8])), "Volts"}); // Voltage
+            result.add(new String[]{"Efficiency", liveData[3], "kWh/kW"});
+            result.add(new String[]{"Normalised", liveData[6], "kW/kW"});
+            result.add(new String[]{"Temperature", liveData[9], " \u2103"});
+            result.add(new String[]{"Voltage", String.format("%4.0f", Double.parseDouble(liveData[10])), "Volts"}); // Voltage
 
             // format the time based on the preference from the settings page 12h/24h
             if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("pref_ds_time_12h", false)) {
