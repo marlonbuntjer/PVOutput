@@ -38,7 +38,7 @@ class PVOutputApiUrls {
                 + res.getString(R.string.pvoutput_api_service_status) + "?"
                 + "key=" + pvoutput_apikey + "&"
                 + "sid=" + pvoutput_sid + "&d="
-                + date;
+                + date + "&h=1&limit=1";
     }
 
     private String getTodayDataUrl(String date) {
